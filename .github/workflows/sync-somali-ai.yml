@@ -1,0 +1,83 @@
+name: Sync Somali AI Candidates
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/sync_from_somali_ai.py"
+      - ".github/workflows/sync-somali-ai.yml"
+      - "manifests/sources.json"
+      - "schemas/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Somali AI Data
+        uses: actions/checkout@v4
+        with:
+          path: data-repo
+
+      - name: Check out Somali AI
+        uses: actions/checkout@v4
+        with:
+          repository: bardooran/somali-ai
+          ref: main
+          path: somali-ai
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Normalize candidate inventories
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_COMMIT="$(git -C somali-ai rev-parse HEAD)"
+          python data-repo/tools/sync_from_somali_ai.py \
+            somali-ai \
+            --source-commit "$SOURCE_COMMIT" \
+            --output-root data-repo
+
+      - name: Guard expected source breadth
+        shell: bash
+        working-directory: data-repo
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m = json.loads(Path('manifests/imports/somali-ai-sync.json').read_text(encoding='utf-8'))
+          counts = {k: v['record_count'] for k, v in m['generated'].items()}
+          assert counts['giellalt_lexical'] >= 13000, counts
+          assert counts['giellalt_grammar'] >= 300, counts
+          assert counts['sls_rules'] >= 100, counts
+          print(counts)
+          PY
+
+      - name: Validate normalized data
+        working-directory: data-repo
+        run: python tools/validate_repo.py
+
+      - name: Commit refreshed inventories
+        shell: bash
+        working-directory: data-repo
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/morphology/provisional/giellalt.jsonl \
+                  data/grammar/provisional/giellalt_function_words.jsonl \
+                  data/grammar/provisional/sls_rules.jsonl \
+                  manifests/imports/somali-ai-sync.json
+          if git diff --cached --quiet; then
+            echo "No normalized data changes"
+            exit 0
+          fi
+          git commit -m "Sync normalized Somali AI candidate inventories"
+          git pull --rebase origin main
+          git push origin HEAD:main
