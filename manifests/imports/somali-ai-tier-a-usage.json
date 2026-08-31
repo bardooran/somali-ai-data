@@ -1,0 +1,31 @@
+{
+  "confidence_tier": "provisional",
+  "correctness_inference_allowed": false,
+  "evaluation_data_included": false,
+  "ingest_repository": "bardooran/somali-ai",
+  "ingest_repository_commit": "d96929c4dafb0fe0103461ea86e21da79789a92d",
+  "inputs": [
+    {
+      "path": "data/usage/external/wikipedia_usage_candidates.jsonl",
+      "record_count": 120,
+      "sha256": "7466cd4f400827bf99e76bd27b9c16889021b76467e666f34923faa3ef3e845d"
+    },
+    {
+      "path": "data/usage/external/xlsum_usage_candidates.jsonl",
+      "record_count": 120,
+      "sha256": "d55cd6f26ea02b5008653bb514d7535f14e2dc70e1df82d3e883d509bb2ae78e"
+    }
+  ],
+  "licenses": [
+    "CC-BY-4.0",
+    "CC-BY-SA-4.0"
+  ],
+  "output": "data/usage/provisional/tier_a_natural_usage.jsonl",
+  "output_sha256": "48350b11b3c6f8a8a116eb84f0b8d527fe506cbb3c966b6cb205108ef4d1be57",
+  "promotion_allowed": false,
+  "record_count": 240,
+  "source_versions": [
+    "5281c76787b69ddbf3a8fc8c45cfcc3ad927467b"
+  ],
+  "training_allowed": false
+}
