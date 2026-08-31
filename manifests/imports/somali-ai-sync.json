@@ -1,0 +1,30 @@
+{
+  "confidence_tier": "provisional",
+  "correctness_inference_allowed": false,
+  "generated": {
+    "giellalt_grammar": {
+      "input": "data/imported/giellalt/grammar_candidates.jsonl",
+      "input_sha256": "b6f0e041a76f41acec2f2fc5916eb5a32df8c260ca45d4c350889a0efeec9c7c",
+      "output": "data/grammar/provisional/giellalt_function_words.jsonl",
+      "output_sha256": "b2a60a6af62307ceef24463ccfe5e5fba12d512a05b858241fecc52236141f63",
+      "record_count": 352
+    },
+    "giellalt_lexical": {
+      "input": "data/imported/giellalt/lexical_candidates.jsonl",
+      "input_sha256": "1eb5e7e8a2d5485f3a35b87e564f6c0aea1fcf2329cfd7ca074ea2cac08f3af2",
+      "output": "data/morphology/provisional/giellalt.jsonl",
+      "output_sha256": "94510ee995239038b104f2345622dee0507ce404aac4f63067b4654dbc1b1246",
+      "record_count": 13255
+    },
+    "sls_rules": {
+      "input": "data/imported/sls/rule_candidates.jsonl",
+      "input_sha256": "d5a8f88f2f1a3592d56ce44271203e8f017d469914eb704b72ea20861a3a2869",
+      "output": "data/grammar/provisional/sls_rules.jsonl",
+      "output_sha256": "20de6ad1e61cfb7371d260f2aa7f998810cf8cd4eb7c8be1ef7b30f456db7565",
+      "record_count": 108
+    }
+  },
+  "ingest_repository": "bardooran/somali-ai",
+  "ingest_repository_commit": "4de45c60367cf3ab1c535a3251715aadaf108ca4",
+  "promotion_allowed": false
+}
