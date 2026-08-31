@@ -1,0 +1,101 @@
+name: Sync Tier-A Natural Usage
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 3 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "tools/sync_tier_a_usage.py"
+      - ".github/workflows/sync-tier-a-usage.yml"
+      - "schemas/**"
+      - "manifests/sources.json"
+
+permissions:
+  contents: write
+
+jobs:
+  sync-usage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out Somali AI Data
+        uses: actions/checkout@v4
+        with:
+          path: data-repo
+          fetch-depth: 1
+
+      - name: Check out Somali AI
+        uses: actions/checkout@v4
+        with:
+          repository: bardooran/somali-ai
+          ref: main
+          path: somali-ai
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Normalize Tier-A natural usage
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_COMMIT="$(git -C somali-ai rev-parse HEAD)"
+          python data-repo/tools/sync_tier_a_usage.py \
+            somali-ai \
+            --source-commit "$SOURCE_COMMIT" \
+            --output-root data-repo
+
+      - name: Guard bounded usage policy
+        working-directory: data-repo
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          manifest = json.loads(Path('manifests/imports/somali-ai-tier-a-usage.json').read_text(encoding='utf-8'))
+          assert manifest['record_count'] == 240, manifest
+          assert manifest['confidence_tier'] == 'provisional'
+          assert manifest['promotion_allowed'] is False
+          assert manifest['correctness_inference_allowed'] is False
+          assert manifest['training_allowed'] is False
+          assert manifest['evaluation_data_included'] is False
+          assert set(manifest['licenses']) == {'CC-BY-4.0', 'CC-BY-SA-4.0'}
+
+          rows = [
+              json.loads(line)
+              for line in Path('data/usage/provisional/tier_a_natural_usage.jsonl').read_text(encoding='utf-8').splitlines()
+              if line.strip()
+          ]
+          assert len(rows) == 240
+          assert all(row['record_type'] == 'usage' for row in rows)
+          assert all(row['retrieval_allowed'] is True for row in rows)
+          assert all(row['training_allowed'] is False for row in rows)
+          assert all(row['correctness_inference_allowed'] is False for row in rows)
+          assert all(row['features']['evidence_tier'] == 'A' for row in rows)
+          print({'tier_a_usage_records': len(rows)})
+          PY
+
+      - name: Validate normalized data
+        working-directory: data-repo
+        run: python tools/validate_repo.py
+
+      - name: Commit refreshed Tier-A usage
+        working-directory: data-repo
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/usage/provisional/tier_a_natural_usage.jsonl \
+                  manifests/imports/somali-ai-tier-a-usage.json
+          if git diff --cached --quiet; then
+            echo "Tier-A usage is already current."
+            exit 0
+          fi
+          git commit -m "Sync Tier-A Somali natural usage"
+          git pull --rebase origin main
+          git push origin HEAD:main
