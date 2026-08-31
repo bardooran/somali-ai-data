@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/bardooran/somali-ai-data/schemas/knowledge-record.schema.json",
+  "title": "Somali AI Knowledge Record",
+  "type": "object",
+  "required": [
+    "record_id",
+    "record_type",
+    "confidence_tier",
+    "status",
+    "sources",
+    "promotion_allowed",
+    "correctness_inference_allowed"
+  ],
+  "properties": {
+    "record_id": {"type": "string", "minLength": 1},
+    "record_type": {
+      "type": "string",
+      "enum": ["vocabulary", "morphology", "grammar", "orthography", "regional", "terminology", "usage", "index"]
+    },
+    "surface": {"type": ["string", "null"]},
+    "lemma": {"type": ["string", "null"]},
+    "sense_id": {"type": ["string", "null"]},
+    "features": {"type": "object"},
+    "confidence_tier": {
+      "type": "string",
+      "enum": ["trusted", "supported", "provisional"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["reviewed", "cross_supported", "provisional", "context_required", "regional_variant", "rejected"]
+    },
+    "regions": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["source_id", "evidence_role"],
+        "properties": {
+          "source_id": {"type": "string", "minLength": 1},
+          "evidence_role": {"type": "string", "minLength": 1},
+          "locator": {"type": ["string", "null"]},
+          "source_version": {"type": ["string", "null"]},
+          "license": {"type": ["string", "null"]},
+          "content_hash": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "promotion_allowed": {"type": "boolean"},
+    "correctness_inference_allowed": {"type": "boolean"},
+    "retrieval_allowed": {"type": "boolean", "default": true},
+    "training_allowed": {"type": "boolean", "default": false},
+    "notes": {"type": ["string", "null"]}
+  },
+  "additionalProperties": true
+}

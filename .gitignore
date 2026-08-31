@@ -1,0 +1,12 @@
+.DS_Store
+__pycache__/
+.pytest_cache/
+.tmp/
+.cache/
+downloads/
+raw/
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z

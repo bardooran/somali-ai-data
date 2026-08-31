@@ -1,0 +1,44 @@
+{
+  "$schema": "../schemas/source-manifest.schema.json",
+  "sources": [
+    {
+      "source_id": "giellalt-somali",
+      "name": "GiellaLT Somali",
+      "upstream_repository": "bardooran/GiellaLT",
+      "upstream_dataset": null,
+      "pinned_version": null,
+      "license_status": "mixed",
+      "per_item_license_required": true,
+      "redistribution_default": "verify_per_item",
+      "roles": ["lexicon", "morphology", "spelling", "proofing"],
+      "independence_group": "giellalt",
+      "notes": "Pin an exact commit for every ingestion. Repository-level metadata does not override more specific per-file licensing. External candidate evidence does not automatically become correctness authority."
+    },
+    {
+      "source_id": "sls-goobolabs",
+      "name": "Somali Language Standard / goobolabs",
+      "upstream_repository": "bardooran/goobolabs",
+      "upstream_dataset": null,
+      "pinned_version": null,
+      "license_status": "mixed",
+      "per_item_license_required": true,
+      "redistribution_default": "verify_per_item",
+      "roles": ["grammar", "orthography", "terminology", "structured_rules", "dictionary_evidence"],
+      "independence_group": null,
+      "notes": "Some structured morphology is derived from existing linguistic publications and must not be double-counted as independent evidence. Bulk dictionary redistribution requires source-rights verification."
+    },
+    {
+      "source_id": "somnlp-corpus",
+      "name": "SomNLP Corpus",
+      "upstream_repository": "bardooran/SomNLP",
+      "upstream_dataset": null,
+      "pinned_version": null,
+      "license_status": "mixed",
+      "per_item_license_required": true,
+      "redistribution_default": "verify_per_item",
+      "roles": ["corpus_pipeline", "natural_usage", "frequency", "tokenizer", "training_data_pipeline"],
+      "independence_group": null,
+      "notes": "Corpus sources retain their own licenses. Natural occurrence is attestation/frequency evidence, not automatic grammatical correctness."
+    }
+  ]
+}
