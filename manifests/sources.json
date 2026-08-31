@@ -39,6 +39,19 @@
       "roles": ["corpus_pipeline", "natural_usage", "frequency", "tokenizer", "training_data_pipeline"],
       "independence_group": null,
       "notes": "Corpus sources retain their own licenses. Natural occurrence is attestation/frequency evidence, not automatic grammatical correctness."
+    },
+    {
+      "source_id": "somali-ai-reviewed",
+      "name": "Somali AI reviewed project evidence",
+      "upstream_repository": "bardooran/somali-ai",
+      "upstream_dataset": null,
+      "pinned_version": null,
+      "license_status": "mixed",
+      "per_item_license_required": true,
+      "redistribution_default": "verify_per_item",
+      "roles": ["reviewed_vocabulary", "reviewed_morphology", "regional_review", "project_normalization"],
+      "independence_group": null,
+      "notes": "This source ID identifies project-reviewed normalized records, not a new independent linguistic source. Preserve the original publication/native-review fields carried by each record and never double-count the wrapper as independent confirmation."
     }
   ]
 }

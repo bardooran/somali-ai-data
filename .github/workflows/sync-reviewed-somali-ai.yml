@@ -1,0 +1,88 @@
+name: Sync Somali AI Reviewed Data
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/sync_reviewed_from_somali_ai.py"
+      - ".github/workflows/sync-reviewed-somali-ai.yml"
+      - "manifests/sources.json"
+      - "schemas/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-reviewed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Somali AI Data
+        uses: actions/checkout@v4
+        with:
+          path: data-repo
+
+      - name: Check out Somali AI
+        uses: actions/checkout@v4
+        with:
+          repository: bardooran/somali-ai
+          ref: main
+          path: somali-ai
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Normalize reviewed vocabulary and morphology
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_COMMIT="$(git -C somali-ai rev-parse HEAD)"
+          python data-repo/tools/sync_reviewed_from_somali_ai.py \
+            somali-ai \
+            --source-commit "$SOURCE_COMMIT" \
+            --output-root data-repo
+
+      - name: Guard reviewed breadth and QA isolation
+        shell: bash
+        working-directory: data-repo
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          manifest = json.loads(Path('manifests/imports/somali-ai-reviewed-sync.json').read_text(encoding='utf-8'))
+          generated = manifest['generated']
+          morphology = generated['reviewed_morphology']['record_count']
+          vocabulary = generated['reviewed_vocabulary']['record_count']
+          assert morphology >= 250, morphology
+          assert vocabulary >= 100, vocabulary
+          assert manifest['evaluation_data_included'] is False
+          assert manifest['qa_paths_included'] is False
+          all_sources = generated['reviewed_morphology']['source_files'] + generated['reviewed_vocabulary']['source_files']
+          assert all('/qa/' not in path and 'benchmark' not in path.casefold() and 'holdout' not in path.casefold() for path in all_sources)
+          print({'reviewed_morphology': morphology, 'reviewed_vocabulary': vocabulary})
+          PY
+
+      - name: Validate normalized data
+        working-directory: data-repo
+        run: python tools/validate_repo.py
+
+      - name: Commit refreshed reviewed inventories
+        shell: bash
+        working-directory: data-repo
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/morphology/reviewed/somali_ai_reviewed.jsonl \
+                  data/vocabulary/reviewed/somali_ai_reviewed.jsonl \
+                  manifests/imports/somali-ai-reviewed-sync.json
+          if git diff --cached --quiet; then
+            echo "No reviewed data changes"
+            exit 0
+          fi
+          git commit -m "Sync reviewed Somali AI language data"
+          git pull --rebase origin main
+          git push origin HEAD:main
