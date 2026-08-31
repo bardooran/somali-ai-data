@@ -1,0 +1,67 @@
+{
+  "evaluation_data_included": false,
+  "generated": {
+    "reviewed_morphology": {
+      "output": "data/morphology/reviewed/somali_ai_reviewed.jsonl",
+      "output_sha256": "7521dd97ab58d436b3bdef58e58982f5232ce620d285186e9ba33bbbc32f1fdc",
+      "record_count": 450,
+      "source_files": [
+        "data/morphology/gothenburg_reviewed_leeyahay_forms.jsonl",
+        "data/morphology/gothenburg_reviewed_negative_focus_auxiliaries.jsonl",
+        "data/morphology/gothenburg_reviewed_past_habitual_stems.jsonl",
+        "data/morphology/native_review_jigjiga_derivational_forms.jsonl",
+        "data/morphology/native_review_jigjiga_maydh_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_aal_yaal_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_ahaw_dependent_pairs.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_ahaw_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_aqaan_dependent_pairs.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_aqaan_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_aqaan_jussive_pairs.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_competition_headwords.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_conditional_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_dependent_pairs.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_dheh_expansion_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_focus_example_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_future_auxiliary_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_headword_morphology.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_imow_dependent_pairs.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_imow_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_imow_jussive_pairs.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_imperative_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_jussive_pairs.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_negative_finite_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_noun_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_past_aspect_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_plural_definite_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_verb_class_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_verb_forms.jsonl",
+        "data/morphology/qaamuus_2012_reviewed_verb_lemmas.jsonl",
+        "data/morphology/qaamuus_corpus_reviewed_class1_past_forms.jsonl",
+        "data/morphology/qaamuus_corpus_reviewed_class2_3_past_forms.jsonl"
+      ]
+    },
+    "reviewed_vocabulary": {
+      "output": "data/vocabulary/reviewed/somali_ai_reviewed.jsonl",
+      "output_sha256": "eb700ca896601422f26b27244540ce09aed15ca588ecbf0efc879234a68d6af8",
+      "record_count": 237,
+      "source_files": [
+        "data/vocabulary/qaamuus_2012_everyday_verbs.jsonl",
+        "data/vocabulary/qaamuus_2012_everyday_words.jsonl",
+        "data/vocabulary/qaamuus_2012_grammar_words.jsonl",
+        "data/vocabulary/qaamuus_2012_sample_entries.jsonl",
+        "data/vocabulary/somali_age_terms.jsonl",
+        "data/vocabulary/somali_calendar_terms.jsonl",
+        "data/vocabulary/somali_datetime_terms.jsonl",
+        "data/vocabulary/somali_direction_terms.jsonl",
+        "data/vocabulary/somali_function_words.json",
+        "data/vocabulary/somali_measurement_terms.jsonl",
+        "data/vocabulary/somali_numbers.json",
+        "data/vocabulary/somali_ordinals.json"
+      ]
+    }
+  },
+  "ingest_repository": "bardooran/somali-ai",
+  "ingest_repository_commit": "4de45c60367cf3ab1c535a3251715aadaf108ca4",
+  "qa_paths_included": false,
+  "training_allowed": false
+}
