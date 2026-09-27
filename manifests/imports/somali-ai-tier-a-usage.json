@@ -3,7 +3,7 @@
   "correctness_inference_allowed": false,
   "evaluation_data_included": false,
   "ingest_repository": "bardooran/somali-ai",
-  "ingest_repository_commit": "66594cb0132541cc29b0d4098b61be0e05d98d26",
+  "ingest_repository_commit": "a21a6a5bf874b599f787398c90e08425b5a9d7ce",
   "inputs": [
     {
       "path": "data/usage/external/wikipedia_usage_candidates.jsonl",
@@ -21,7 +21,7 @@
     "CC-BY-SA-4.0"
   ],
   "output": "data/usage/provisional/tier_a_natural_usage.jsonl",
-  "output_sha256": "5e7fcdf6d5184d2a4903872f5fe022eeea476138442b2a62dcbe87da2d77d4ff",
+  "output_sha256": "3b945582ad2e9331976945f9ce879dc601b70d8842fd817c67f44e57e1307ec0",
   "promotion_allowed": false,
   "record_count": 240,
   "source_versions": [
